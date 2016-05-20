@@ -6,6 +6,8 @@ PELICAN_OUTPUT_FOLDER="output"
 
 echo -e "Testing travis-encrypt"
 echo -e "$ENCRYPTION_LABEL"
+pwd
+ls -la
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     echo -e "Starting to deploy to Github Pages\n"
@@ -14,11 +16,11 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
         git config --global user.name "Travis"
     fi
     #using token clone gh-pages branch
-    git clone --branch=$BRANCH REPO_URL built_website 
+    git clone --branch=$BRANCH $REPO_URL built_website 
     #> /dev/null
     #go into directory and copy data we're interested in to that directory
     cd built_website
-    rm -rf built_website/**/* || exit 0
+    rm -rf ./**/* || exit 0
     rsync -rv --exclude=.git  ../$PELICAN_OUTPUT_FOLDER/* .
     #add, commit and push files
     git add -f .
@@ -34,7 +36,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     eval `ssh-agent -s`
     ssh-add deploy_key
 
-    git push -fq origin $BRANCH > /dev/null
+    git push -fq origin $BRANCH 
     rm deploy_key
     echo -e "Deploy completed\n"
 fi
