@@ -9,8 +9,8 @@ echo -e "$VARNAME"
 if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     echo -e "Starting to deploy to Github Pages\n"
     if [ "$TRAVIS" == "true" ]; then
-        git config --global user.email "travis@travis-ci.org"
-        git config --global user.name "Travis"
+        git config --global user.email "steve.kyle@gmail.com"
+        git config --global user.name "stkyle"
     fi
     #using token clone gh-pages branch
     git clone --quiet --branch=$BRANCH https://stkyle@github.com/$TARGET_REPO built_website > /dev/null
