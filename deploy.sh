@@ -23,9 +23,12 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     rm -rf ./**/* || exit 0
     rsync -rv --exclude=.git  ../$PELICAN_OUTPUT_FOLDER/* .
     #add, commit and push files
-    git add -f .
+    git add -A
     git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to Github Pages"
-
+    # Save some useful information
+    REPO=`git config remote.origin.url`
+    SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
+    SHA=`git rev-parse --verify HEAD`
     # Get the deploy key by using Travis's stored variables to decrypt deploy_key.enc
     ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
     ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
@@ -36,7 +39,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     eval `ssh-agent -s`
     ssh-add deploy_key
 
-    git push -fq origin $BRANCH 
+    git push $SSH_REPO $BRANCH
     rm deploy_key
     echo -e "Deploy completed\n"
 fi
