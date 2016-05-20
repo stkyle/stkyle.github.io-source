@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-BRANCH="gh-pages"
+BRANCH="master"
 TARGET_REPO="stkyle/stkyle.github.io.git"
 REPO_URL="https://github.com/stkyle/stkyle.github.io.git"
 PELICAN_OUTPUT_FOLDER="output"
